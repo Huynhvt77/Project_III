@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-
 public class JoinServer : MonoBehaviour
 {
    public void Join()
    {
-      NetworkManager.Singleton.StartClient();
-
+        NetworkManager.Singleton.StartClient();
    }
 }
