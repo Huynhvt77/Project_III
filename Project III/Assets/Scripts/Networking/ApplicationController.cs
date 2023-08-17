@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class ApplicationControler : MonoBehaviour
+public class ApplicationController : MonoBehaviour
 {
     [SerializeField] private ClientSingleton clientPrefap;
 
@@ -24,10 +24,15 @@ public class ApplicationControler : MonoBehaviour
         }
         else{
             ClientSingleton clientSingleton = Instantiate(clientPrefap);
-            await clientSingleton.CreateClient();
+            bool authenticated = await clientSingleton.CreateClient();
 
             HostSingleton hostSingleton = Instantiate(hostPrefap);
             hostSingleton.CreateHost();
+
+            if (authenticated)
+            {
+                clientSingleton.GameManager.GoToMenu();
+            }
         }
     }
 }
