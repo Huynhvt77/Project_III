@@ -546,7 +546,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputReader: {fileID: 11400000, guid: 2f98de08d00f0294bb5cacb500358278, type: 2}
-  coinWallet: {fileID: 9175110211499445718}
+  wallet: {fileID: 9175110211499445718}
   projectileSpawnPoint: {fileID: 6440458838900260019}
   serverProjectilePrefab: {fileID: 8538270612627169415, guid: cb0df84e44d58774c92892bc0228dc0a, type: 3}
   clientProjectilePrefab: {fileID: 1387990182233847297, guid: c3e8c143afd60de4d8b9c949e85b5ff0, type: 3}
