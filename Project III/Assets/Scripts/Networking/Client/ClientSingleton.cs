@@ -7,7 +7,7 @@ public class ClientSingleton : MonoBehaviour
 {
     private static ClientSingleton instance;
 
-    public ClientGameManager GameManager;
+    public ClientGameManager GameManager {get; private set; }
 
     public static ClientSingleton Instance
     {
@@ -34,10 +34,10 @@ public class ClientSingleton : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public async Task CreateClient()
+    public async Task<bool> CreateClient()
     {
         GameManager = new ClientGameManager();
 
-        await GameManager.InitAsync();
+        return await GameManager.InitAsync();
     }
 }
