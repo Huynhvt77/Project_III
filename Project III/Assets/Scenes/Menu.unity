@@ -1118,6 +1118,7 @@ GameObject:
   - component: {fileID: 1049260611}
   - component: {fileID: 1049260613}
   - component: {fileID: 1049260612}
+  - component: {fileID: 1049260614}
   m_Layer: 0
   m_Name: LobbiesBackgound
   m_TagString: Untagged
@@ -1186,6 +1187,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1049260610}
   m_CullTransparentMesh: 1
+--- !u!114 &1049260614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049260610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb904f37638d4614ba76f2e0fa7c9490, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lobbyItemParent: {fileID: 1644662447}
+  lobbyItemPrefab: {fileID: 8300381129748925105, guid: 2508d64461ea88d46b2344b7b4255a7d, type: 3}
 --- !u!1 &1222357836
 GameObject:
   m_ObjectHideFlags: 0
@@ -2044,7 +2059,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1444417872}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1049260614}
+        m_TargetAssemblyTypeName: LobbiesList, Assembly-CSharp
+        m_MethodName: RefreshList
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1444417872
 MonoBehaviour:
   m_ObjectHideFlags: 0
