@@ -11,7 +11,7 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] private Rigidbody2D rb;
 
     [Header("Settings")]
-    [SerializeField] private float movementSpeed = 4f;
+    [SerializeField] private float movementSpeed = 6f;
     [SerializeField] private float turningRate = 30f;
 
     private Vector2 previousMovementInput;
