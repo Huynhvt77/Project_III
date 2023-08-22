@@ -23,7 +23,7 @@ public class Leaderboard : NetworkBehaviour
         if (IsClient)
         {
             leaderboardEntities.OnListChanged += HandleLeaderboardEntitiesChanged;
-            foreach(LeaderboardEntityState entity in leaderboardEntities)
+            foreach (LeaderboardEntityState entity in leaderboardEntities)
             {
                 HandleLeaderboardEntitiesChanged(new NetworkListEvent<LeaderboardEntityState>
                 {
@@ -77,7 +77,7 @@ public class Leaderboard : NetworkBehaviour
                 }
                 break;
             case NetworkListEvent<LeaderboardEntityState>.EventType.Remove:
-            LeaderboardEntityDisplay displayToRemove =
+                LeaderboardEntityDisplay displayToRemove =
                     entityDisplays.FirstOrDefault(x => x.ClientId == changeEvent.Value.ClientId);
                 if (displayToRemove != null)
                 {
@@ -106,7 +106,8 @@ public class Leaderboard : NetworkBehaviour
             Coins = 0
         });
 
-        
+        player.Wallet.TotalCoins.OnValueChanged += (oldCoins, newCoins) =>
+            HandleCoinsChanged(player.OwnerClientId, newCoins);
     }
 
     private void HandlePlayerDespawned(TankPlayer player)
@@ -118,6 +119,25 @@ public class Leaderboard : NetworkBehaviour
             leaderboardEntities.Remove(entity);
             break;
         }
+
+        player.Wallet.TotalCoins.OnValueChanged -= (oldCoins, newCoins) =>
+            HandleCoinsChanged(player.OwnerClientId, newCoins);
     }
 
+    private void HandleCoinsChanged(ulong clientId, int newCoins)
+    {
+        for (int i = 0; i < leaderboardEntities.Count; i++)
+        {
+            if (leaderboardEntities[i].ClientId != clientId) { continue; }
+
+            leaderboardEntities[i] = new LeaderboardEntityState
+            {
+                ClientId = leaderboardEntities[i].ClientId,
+                PlayerName = leaderboardEntities[i].PlayerName,
+                Coins = newCoins
+            };
+
+            return;
+        }
+    }
 }
