@@ -787,7 +787,7 @@ MonoBehaviour:
   inputReader: {fileID: 11400000, guid: 2f98de08d00f0294bb5cacb500358278, type: 2}
   bodyTransform: {fileID: 1190896905692621661}
   rb: {fileID: 2302539661612119850}
-  movementSpeed: 5
+  movementSpeed: 10
   turningRate: 180
 --- !u!50 &2302539661612119850
 Rigidbody2D:
