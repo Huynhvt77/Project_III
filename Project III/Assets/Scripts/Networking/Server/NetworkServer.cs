@@ -8,6 +8,8 @@ public class NetworkServer : IDisposable
 {
     private NetworkManager networkManager;
 
+    public Action<string> OnClientLeft;
+
     private Dictionary<ulong, string> clientIdToAuth = new Dictionary<ulong, string>();
     private Dictionary<string, UserData> authIdToUserData = new Dictionary<string, UserData>();
 
@@ -18,8 +20,6 @@ public class NetworkServer : IDisposable
         networkManager.ConnectionApprovalCallback += ApprovalCheck;
         networkManager.OnServerStarted += OnNetworkready;
     }
-
-    
 
     private void ApprovalCheck(
         NetworkManager.ConnectionApprovalRequest request, 
@@ -48,7 +48,8 @@ public class NetworkServer : IDisposable
         if (clientIdToAuth.TryGetValue(clientId, out string authId))
         {
             clientIdToAuth.Remove(clientId);
-            authIdToUserData.Remove(authId);    
+            authIdToUserData.Remove(authId);   
+            OnClientLeft?.Invoke(authId); 
         }
     }
 
