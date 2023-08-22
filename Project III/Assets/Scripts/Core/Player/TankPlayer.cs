@@ -19,31 +19,32 @@ public class TankPlayer : NetworkBehaviour
     public NetworkVariable<FixedString32Bytes> PlayerName = new NetworkVariable<FixedString32Bytes>();
 
     public static event Action<TankPlayer> OnPlayerSpawned;
-
     public static event Action<TankPlayer> OnPlayerDespawned;
 
     public override void OnNetworkSpawn()
     {
         if (IsServer)
         {
-            UserData userData =  HostSingleton.Instance.GameManager.NetworkServer.GetUserDataByClientId(OwnerClientId);
-        
+            UserData userData =
+                HostSingleton.Instance.GameManager.NetworkServer.GetUserDataByClientId(OwnerClientId);
+
             PlayerName.Value = userData.userName;
 
             OnPlayerSpawned?.Invoke(this);
         }
 
-        if(IsOwner)
+        if (IsOwner)
         {
             virtualCamera.Priority = ownerPriority;
         }
     }
 
-    override public void OnNetworkDespawn()
+    public override void OnNetworkDespawn()
     {
-        if(IsServer)
+        if (IsServer)
         {
             OnPlayerDespawned?.Invoke(this);
         }
     }
 }
+
