@@ -242,7 +242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healPowerBar: {fileID: 2564666726528180215}
   maxHealPower: 30
-  healCooldown: 60
+  healCooldown: 10
   healTickRate: 1
   coinsPerTick: 10
   healthPerTick: 10
@@ -300,7 +300,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
