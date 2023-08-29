@@ -18,6 +18,8 @@ public class ClientGameManager :IDisposable
     private JoinAllocation allocation;
 
     private NetworkClient networkClient;
+    private MatchplayMatchmaker matchmaker;
+    private UserData userData;
 
     private const string MenuSceneName = "Menu";
     public async Task<bool> InitAsync()
@@ -25,11 +27,17 @@ public class ClientGameManager :IDisposable
         await UnityServices.InitializeAsync();  
 
         networkClient = new NetworkClient(NetworkManager.Singleton);
+        matchmaker = new MatchplayMatchmaker();
 
         AuthState authState = await AuthenticationWrapper.DoAuth();
 
         if (authState == AuthState.Authenticated)
         {
+            userData= new UserData
+            {
+                userName = PlayerPrefs.GetString(NameSelector.PlayerNameKey, "Missing name"),
+                userAuthId = AuthenticationService.Instance.PlayerId
+            };
             return true;
         }
 
@@ -58,11 +66,7 @@ public class ClientGameManager :IDisposable
         RelayServerData relaySeverData = new RelayServerData(allocation, "udp");
         transport.SetRelayServerData(relaySeverData);
 
-        UserData userData= new UserData
-        {
-            userName = PlayerPrefs.GetString(NameSelector.PlayerNameKey, "Missing name"),
-            userAuthId = AuthenticationService.Instance.PlayerId
-        };
+        
         string payload = JsonUtility.ToJson(userData);
         byte[] payloadBytes = Encoding.UTF8.GetBytes(payload);
 
@@ -71,6 +75,18 @@ public class ClientGameManager :IDisposable
         NetworkManager.Singleton.StartClient();
 
         //NetworkManager.Singleton.SceneManager.LoadScene("Game", LoadSceneMode.Single);
+    }
+
+    private async Task<MatchmakerPollingResult> GetMatchAsync()
+    {
+        MatchmakingResult matchmakingResult =  await matchmaker.Matchmake(userData);
+
+        if(matchmakingResult.result == MatchmakerPollingResult.Success)
+        {
+            // connect to server
+        }
+
+        return matchmakingResult.result;
     }
 
     internal void Disconnect()

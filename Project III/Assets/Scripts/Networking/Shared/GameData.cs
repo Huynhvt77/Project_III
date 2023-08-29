@@ -1,4 +1,5 @@
 using System;
+using Unity.Netcode;
 
 public enum Map
 {
@@ -33,6 +34,11 @@ public class GameInfo
 
     public string ToMultiplayQueue()
     {
-        return "";
+        return gameQueue switch
+        {
+            GameQueue.Solo => "single-queue",
+            GameQueue.Team => "team-queue",
+            _ => "single-queue",
+        }; ;
     }
 }
