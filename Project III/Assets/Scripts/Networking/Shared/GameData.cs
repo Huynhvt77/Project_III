@@ -22,7 +22,7 @@ public class UserData
 {
     public string userName;
     public string userAuthId;
-    public GameInfo userGamePreferences;
+    public GameInfo userGamePreferences = new GameInfo();
 }
 
 [Serializable]
@@ -36,9 +36,9 @@ public class GameInfo
     {
         return gameQueue switch
         {
-            GameQueue.Solo => "single-queue",
+            GameQueue.Solo => "solo-queue",
             GameQueue.Team => "team-queue",
-            _ => "single-queue",
-        }; ;
+            _ => "solo-queue",
+        }; 
     }
 }
