@@ -18,12 +18,20 @@ using UnityEngine.SceneManagement;
 public class HostGameManager : IDisposable
 {
     private Allocation allocation;
+    private NetworkObject playerPrefab;
+
     private string joinCode;
     private string lobbyId;
     public NetworkServer NetworkServer { get; private set; }
 
     private const int maxConnections = 5;
     private const string GameplaySceneName = "Game";
+
+    public HostGameManager(NetworkObject playerPrefab)
+    {
+        this.playerPrefab = playerPrefab;
+    }
+
     public async Task StartHostAsync()
     {
         try
@@ -82,7 +90,7 @@ public class HostGameManager : IDisposable
             return;
         }
 
-        NetworkServer = new NetworkServer(NetworkManager.Singleton);
+        NetworkServer = new NetworkServer(NetworkManager.Singleton, playerPrefab);
 
         UserData userData= new UserData
         {
