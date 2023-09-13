@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Services.Lobbies;
+using Unity.Services.Lobbies.Models;
 using UnityEngine;
 
 public class MainMenu : MonoBehaviour
@@ -12,6 +15,9 @@ public class MainMenu : MonoBehaviour
 
     private bool isMatchmaking;
     private bool isCancelling;
+    private bool isBusy;
+    private float timeInQueue;
+
 
     private void Start()
     {
@@ -22,6 +28,16 @@ public class MainMenu : MonoBehaviour
         queueStatusText.text = string.Empty;
         queueTimerText.text = string.Empty;
     }
+
+    private void Update()
+    {
+        if (isMatchmaking)
+        {
+            timeInQueue += Time.deltaTime;
+            queueTimerText.text = string.Format("{0:00}:{1:00}", ((TimeSpan)TimeSpan.FromSeconds(timeInQueue)).Minutes, ((TimeSpan)TimeSpan.FromSeconds(timeInQueue)).Seconds);
+        }
+    }
+
 
     public async void FindMatchPressed()
     {
@@ -35,16 +51,23 @@ public class MainMenu : MonoBehaviour
             await ClientSingleton.Instance.GameManager.CancelMatchmaking();
             isCancelling = false;
             isMatchmaking = false;
+            isBusy = false;
             findMatchButtonText.text = "Find Match";
             queueStatusText.text = string.Empty;
+            queueTimerText.text = string.Empty;
             return;
         }
+
+        if (isBusy) { return; }
 
         // Start queue
         ClientSingleton.Instance.GameManager.MatchmakeAsync(onMatchMade);
         findMatchButtonText.text = "Cancel";
         queueStatusText.text = "Searching...";
+        timeInQueue = 0f;
         isMatchmaking = true;
+        isBusy = true;
+
     }
 
     private void onMatchMade(MatchmakerPollingResult result)
@@ -72,11 +95,45 @@ public class MainMenu : MonoBehaviour
 
     public async void StartHost()
     {
+        if (isBusy) { return; }
+
+        isBusy = true;
+
         await HostSingleton.Instance.GameManager.StartHostAsync();
+
+        isBusy = false;
+
     }
 
     public async void StartClient()
     {
+        if (isBusy) { return; }
+
+        isBusy = true;
+
         await ClientSingleton.Instance.GameManager.StartClientAsync(joinCodeField.text);
+
+        isBusy = false;
+    }
+
+    public async void JoinAsync(Lobby lobby)
+    {
+        if (isBusy) { return; }
+
+        isBusy = true;
+
+        try
+        {
+            Lobby joiningLobby = await Lobbies.Instance.JoinLobbyByIdAsync(lobby.Id);
+            string joinCode = joiningLobby.Data["JoinCode"].Value;
+
+            await ClientSingleton.Instance.GameManager.StartClientAsync(joinCode);
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.Log(e);
+        }
+
+        isBusy = false;
     }
 }
