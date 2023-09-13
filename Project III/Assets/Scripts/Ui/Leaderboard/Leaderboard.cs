@@ -101,6 +101,7 @@ public class Leaderboard : NetworkBehaviour
 
         for (int i = 0; i < entityDisplays.Count; i++)
         {
+            //aaa
             entityDisplays[i].transform.SetSiblingIndex(i);
             entityDisplays[i].UpdateText();
             entityDisplays[i].gameObject.SetActive(i <= entitiesToDisplay - 1);
@@ -128,7 +129,7 @@ public class Leaderboard : NetworkBehaviour
             PlayerName = player.PlayerName.Value,
             Coins = 0
         });
-
+        //???
         player.Wallet.TotalCoins.OnValueChanged += (oldCoins, newCoins) =>
             HandleCoinsChanged(player.OwnerClientId, newCoins);
     }
@@ -142,7 +143,7 @@ public class Leaderboard : NetworkBehaviour
             leaderboardEntities.Remove(entity);
             break;
         }
-
+        //???
         player.Wallet.TotalCoins.OnValueChanged -= (oldCoins, newCoins) =>
             HandleCoinsChanged(player.OwnerClientId, newCoins);
     }

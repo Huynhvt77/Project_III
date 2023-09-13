@@ -38,7 +38,7 @@ public class ApplicationController : MonoBehaviour
 
             if(authenticated)
             {
-                clientSingleton.GameManager.GotoMenu();
+                clientSingleton.GameManager.GoToMenu();
             }
         }
     }

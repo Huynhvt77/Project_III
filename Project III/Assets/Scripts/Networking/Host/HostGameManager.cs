@@ -65,7 +65,7 @@ public class HostGameManager : IDisposable
                     )
                 }
             };
-
+        //???
             string playerName = PlayerPrefs.GetString(NameSelector.PlayerNameKey, "Unknown");
             Lobby lobby = await Lobbies.Instance.CreateLobbyAsync(
                 $"{playerName}'s Lobby", 
@@ -91,11 +91,11 @@ public class HostGameManager : IDisposable
         };
         string payload = JsonUtility.ToJson(userData);
         byte[] payloadBytes = Encoding.UTF8.GetBytes(payload);
-
+        //???
         NetworkManager.Singleton.NetworkConfig.ConnectionData = payloadBytes;
 
         NetworkManager.Singleton.StartHost();
-
+        //???
         NetworkServer.OnClientLeft += HandleClientLeft;
 
         NetworkManager.Singleton.SceneManager.LoadScene(GameplaySceneName, LoadSceneMode.Single);
@@ -118,21 +118,20 @@ public class HostGameManager : IDisposable
 
     public async void Shutdown()
     {
+        if(string.IsNullOrEmpty(lobbyId)) { return; }
+        
         HostSingleton.Instance.StopCoroutine(nameof(HeartbeatLobby));
 
-        if(!string.IsNullOrEmpty(lobbyId))
+        try
         {
-            try
-            {
-                await Lobbies.Instance.DeleteLobbyAsync(lobbyId);
-            }
-            catch(LobbyServiceException e)
-            {
-                Debug.Log(e);
-            }
-
-            lobbyId = string.Empty;
+            await Lobbies.Instance.DeleteLobbyAsync(lobbyId);
         }
+        catch(LobbyServiceException e)
+        {
+            Debug.Log(e);
+        }
+
+        lobbyId = string.Empty;
 
         NetworkServer.OnClientLeft -= HandleClientLeft;
 
