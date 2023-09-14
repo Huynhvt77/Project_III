@@ -24,7 +24,7 @@ public class HostGameManager : IDisposable
     private string lobbyId;
     public NetworkServer NetworkServer { get; private set; }
 
-    private const int maxConnections = 5;
+    private const int maxConnections = 20;
     private const string GameplaySceneName = "Game";
 
     public HostGameManager(NetworkObject playerPrefab)
@@ -32,7 +32,7 @@ public class HostGameManager : IDisposable
         this.playerPrefab = playerPrefab;
     }
 
-    public async Task StartHostAsync()
+    public async Task StartHostAsync(bool isPrivate)
     {
         try
         {
@@ -63,7 +63,7 @@ public class HostGameManager : IDisposable
         try
         {
             CreateLobbyOptions lobbyOptions = new CreateLobbyOptions();
-            lobbyOptions.IsPrivate = false;
+            lobbyOptions.IsPrivate = isPrivate;
             lobbyOptions.Data = new Dictionary<string, DataObject>()
             {
                 {
