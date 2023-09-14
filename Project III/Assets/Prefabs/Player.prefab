@@ -10589,6 +10589,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0f79ec0205bbbd419eed410b71f8797, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 6823166839860029093}
   inputReader: {fileID: 11400000, guid: 2f98de08d00f0294bb5cacb500358278, type: 2}
   wallet: {fileID: 9175110211499445718}
   projectileSpawnPoint: {fileID: 6440458838900260019}

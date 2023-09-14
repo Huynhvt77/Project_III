@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 public class ProjectileLauncher : NetworkBehaviour
 {
     [Header("References")]
+    [SerializeField] private TankPlayer player;
     [SerializeField] private InputReader inputReader;
     [SerializeField] private CoinWallet wallet;
     [SerializeField] private Transform projectileSpawnPoint;
@@ -71,7 +72,7 @@ public class ProjectileLauncher : NetworkBehaviour
 
         PrimaryFireServerRpc(projectileSpawnPoint.position, projectileSpawnPoint.up);
 
-        SpawnDummyProjectile(projectileSpawnPoint.position, projectileSpawnPoint.up);
+        SpawnDummyProjectile(projectileSpawnPoint.position, projectileSpawnPoint.up, player.TeamIndex.Value);
 
         timer = 1 / fireRate;
     }
@@ -102,9 +103,9 @@ public class ProjectileLauncher : NetworkBehaviour
 
         Physics2D.IgnoreCollision(playerCollider, projectileInstance.GetComponent<Collider2D>());
 
-        if(projectileInstance.TryGetComponent<DealDamageOnContact>(out DealDamageOnContact dealDamage))
+        if(projectileInstance.TryGetComponent<Projectile>(out Projectile projectile))
         {
-            dealDamage.SetOwner(OwnerClientId);
+            projectile.Initialise(player.TeamIndex.Value);
         }
 
         if(projectileInstance.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb))
@@ -112,18 +113,18 @@ public class ProjectileLauncher : NetworkBehaviour
             rb.velocity = rb.transform.up * projectileSpeed;
         }
 
-        SpawnDummyProjectileClientRpc(spawnPos, direction);
+        SpawnDummyProjectileClientRpc(spawnPos, direction, player.TeamIndex.Value);
     }
 
     [ClientRpc]
-    private void SpawnDummyProjectileClientRpc(Vector3 spawnPos, Vector3 direction)
+    private void SpawnDummyProjectileClientRpc(Vector3 spawnPos, Vector3 direction, int teamIndex)
     {
         if (IsOwner) { return; }
 
-        SpawnDummyProjectile(spawnPos, direction);
+        SpawnDummyProjectile(spawnPos, direction, teamIndex);
     }
 
-    private void SpawnDummyProjectile(Vector3 spawnPos, Vector3 direction)
+    private void SpawnDummyProjectile(Vector3 spawnPos, Vector3 direction, int teamIndex)
     {
         muzzleFlash.SetActive(true);
         muzzleFlashTimer = muzzleFlashDuration;
@@ -136,6 +137,11 @@ public class ProjectileLauncher : NetworkBehaviour
         projectileInstance.transform.up = direction;
 
         Physics2D.IgnoreCollision(playerCollider, projectileInstance.GetComponent<Collider2D>());
+
+        if (projectileInstance.TryGetComponent<Projectile>(out Projectile projectile))
+        {
+            projectile.Initialise(teamIndex);
+        }
 
         if(projectileInstance.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb))
         {
