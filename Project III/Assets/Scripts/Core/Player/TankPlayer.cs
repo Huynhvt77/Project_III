@@ -20,6 +20,7 @@ public class TankPlayer : NetworkBehaviour
     [SerializeField] private Color ownerColour;
 
     public NetworkVariable<FixedString32Bytes> PlayerName = new NetworkVariable<FixedString32Bytes>();
+    public NetworkVariable<int> TeamIndex = new NetworkVariable<int>();
 
     public static event Action<TankPlayer> OnPlayerSpawned;
     public static event Action<TankPlayer> OnPlayerDespawned;
@@ -40,10 +41,9 @@ public class TankPlayer : NetworkBehaviour
                 userData =
                     ServerSingleton.Instance.GameManager.NetworkServer.GetUserDataByClientId(OwnerClientId);
             }
-            
-
 
             PlayerName.Value = userData.userName;
+            TeamIndex.Value = userData.teamIndex;
 
             OnPlayerSpawned?.Invoke(this);
         }
