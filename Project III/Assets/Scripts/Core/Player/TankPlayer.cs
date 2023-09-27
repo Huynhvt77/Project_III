@@ -5,6 +5,8 @@ using UnityEngine;
 using Cinemachine;
 using Unity.Collections;
 using System;
+using UnityEngine.SceneManagement;
+using Unity.Services.Lobbies.Models;
 
 public class TankPlayer : NetworkBehaviour
 {
@@ -18,13 +20,62 @@ public class TankPlayer : NetworkBehaviour
     [Header("Settings")]
     [SerializeField] private int ownerPriority = 15;
     [SerializeField] private Color ownerColour;
+    //[SerializeField] public int life = 3;
 
+    private Leaderboard leaderboard;
     public NetworkVariable<FixedString32Bytes> PlayerName = new NetworkVariable<FixedString32Bytes>();
     public NetworkVariable<int> TeamIndex = new NetworkVariable<int>();
 
     public static event Action<TankPlayer> OnPlayerSpawned;
     public static event Action<TankPlayer> OnPlayerDespawned;
 
+    private double currenttime;
+    public static int connections = 0;
+    private double waitTime = 0f;
+
+    private void Start() 
+    {
+        connections += 1;
+        leaderboard = FindAnyObjectByType<Leaderboard>();
+    }
+
+    private void Update() 
+    {
+        Debug.Log(connections);
+        if (connections == 2)
+        {
+            if (waitTime == 0f)
+                waitTime = NetworkManager.ServerTime.Time;
+        }
+
+        if (connections > 1)
+        {
+            currenttime = NetworkManager.ServerTime.Time - waitTime;
+            Debug.Log(currenttime);
+        }
+
+        if(currenttime > 10)
+        {
+            connections = 0;
+
+            if (NetworkManager.Singleton.IsHost)
+            {
+                leaderboard.CenterLeaderboard();
+                StartCoroutine(IShowBoardForHost());
+            }
+
+            leaderboard.CenterLeaderboard();
+            StartCoroutine(IShowBoardForClient());
+        }
+    }
+    IEnumerator IShowBoardForClient(){
+        yield return new WaitForSeconds(5);
+        ClientSingleton.Instance.GameManager.Disconnect();
+    }
+    IEnumerator IShowBoardForHost(){
+        yield return new WaitForSeconds(5);
+        HostSingleton.Instance.GameManager.Shutdown();
+    }
     public override void OnNetworkSpawn()
     {
         if (IsServer)

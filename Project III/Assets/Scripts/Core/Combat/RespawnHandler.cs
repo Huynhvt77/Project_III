@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RespawnHandler : NetworkBehaviour
 {
@@ -47,7 +48,7 @@ public class RespawnHandler : NetworkBehaviour
         int keptCoins = (int)(player.Wallet.TotalCoins.Value * (keptCoinPercentage / 100));
         
         Destroy(player.gameObject);
-
+        
         StartCoroutine(RespawnPlayer(player.OwnerClientId, keptCoins));
     }
 
@@ -60,7 +61,7 @@ public class RespawnHandler : NetworkBehaviour
             SpawnPoint.GetRandomSpawnPos(), 
             Quaternion.identity
         );
-        //???
+        
         playerInstance.NetworkObject.SpawnAsPlayerObject(ownerClientId);
 
         playerInstance.Wallet.TotalCoins.Value += keptCoins;

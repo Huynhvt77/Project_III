@@ -4,6 +4,7 @@ using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameHUD : NetworkBehaviour
 {
@@ -34,7 +35,6 @@ public class GameHUD : NetworkBehaviour
 
     public void LeaveGame()
     {
-        if(NetworkManager.Singleton.IsHost)
         if (NetworkManager.Singleton.IsHost)
         {
             HostSingleton.Instance.GameManager.Shutdown();

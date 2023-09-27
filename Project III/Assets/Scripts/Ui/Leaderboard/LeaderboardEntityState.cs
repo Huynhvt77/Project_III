@@ -8,7 +8,7 @@ public struct LeaderboardEntityState : INetworkSerializable, IEquatable<Leaderbo
     public int TeamIndex;
     public FixedString32Bytes PlayerName;
     public int Coins;
-    //???
+    
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
         serializer.SerializeValue(ref ClientId);

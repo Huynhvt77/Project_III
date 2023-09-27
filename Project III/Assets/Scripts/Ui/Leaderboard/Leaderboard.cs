@@ -2,27 +2,34 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Leaderboard : NetworkBehaviour
 {
-    [SerializeField] private Transform leaderboardEntityHolder;
-    [SerializeField] private Transform teamLeaderboardEntityHolder;
+    [SerializeField] private RectTransform leaderboardEntityHolder;
+    [SerializeField] private RectTransform teamLeaderboardEntityHolder;
+    private RectTransform leaderboard;
     [SerializeField] private GameObject teamLeaderboardBackground;
     [SerializeField] private LeaderboardEntityDisplay leaderboardEntityPrefab;
     [SerializeField] private int entitiesToDisplay = 8;
     [SerializeField] private Color ownerColour;
-    [SerializeField] private string[] teamNames;
     [SerializeField] private TeamColourLookup teamColourLookup;
+    [SerializeField] private GameObject loadingToMenu;
+    [SerializeField] private string[] teamNames;
+
 
     private NetworkList<LeaderboardEntityState> leaderboardEntities;
     private List<LeaderboardEntityDisplay> entityDisplays = new List<LeaderboardEntityDisplay>();
     private List<LeaderboardEntityDisplay> teamEntityDisplays = new List<LeaderboardEntityDisplay>();
+    private bool isLeaderboardCentered = false;
 
     private void Awake()
     {
         leaderboardEntities = new NetworkList<LeaderboardEntityState>();
+        leaderboard = leaderboardEntityHolder.parent.GetComponent<RectTransform>();
     }
 
     public override void OnNetworkSpawn()
@@ -219,6 +226,18 @@ public class Leaderboard : NetworkBehaviour
             };
 
             return;
+        }
+    }
+
+    public void CenterLeaderboard()
+    {
+        loadingToMenu.SetActive(true);
+        
+        if (!isLeaderboardCentered)
+        {
+            leaderboard.position = new Vector2(1110, 740);
+
+            isLeaderboardCentered = true;
         }
     }
 }

@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RespawningCoin
       objectReference: {fileID: 0}
+    - target: {fileID: 4337305207899915406, guid: 1b8414dcd6ccf304bbec3777d3ae1ac4, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6235667682797271693, guid: 1b8414dcd6ccf304bbec3777d3ae1ac4, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 951099334

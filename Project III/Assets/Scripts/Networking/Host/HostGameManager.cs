@@ -74,7 +74,7 @@ public class HostGameManager : IDisposable
                     )
                 }
             };
-        //???
+        
             string playerName = PlayerPrefs.GetString(NameSelector.PlayerNameKey, "Unknown");
             Lobby lobby = await Lobbies.Instance.CreateLobbyAsync(
                 $"{playerName}'s Lobby", 
@@ -100,11 +100,11 @@ public class HostGameManager : IDisposable
         };
         string payload = JsonUtility.ToJson(userData);
         byte[] payloadBytes = Encoding.UTF8.GetBytes(payload);
-        //???
+        
         NetworkManager.Singleton.NetworkConfig.ConnectionData = payloadBytes;
 
         NetworkManager.Singleton.StartHost();
-        //???
+        
         NetworkServer.OnClientLeft += HandleClientLeft;
 
         NetworkManager.Singleton.SceneManager.LoadScene(GameplaySceneName, LoadSceneMode.Single);
@@ -152,6 +152,7 @@ public class HostGameManager : IDisposable
         try
         {
             await LobbyService.Instance.RemovePlayerAsync(lobbyId, authId);
+            TankPlayer.connections -= 1;
         }
         catch(LobbyServiceException e)
         {

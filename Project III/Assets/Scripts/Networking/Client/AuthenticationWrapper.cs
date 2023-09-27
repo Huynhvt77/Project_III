@@ -49,7 +49,7 @@ public static class AuthenticationWrapper
             {
                 await AuthenticationService.Instance.SignInAnonymouslyAsync();
 
-                if (AuthenticationService.Instance.IsSignedIn &&AuthenticationService.Instance.IsAuthorized)
+                if (AuthenticationService.Instance.IsSignedIn && AuthenticationService.Instance.IsAuthorized)
                 {
                     AuthState = AuthState.Authenticated; 
                     break;

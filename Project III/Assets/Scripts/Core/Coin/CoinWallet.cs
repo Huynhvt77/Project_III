@@ -55,7 +55,7 @@ public class CoinWallet : NetworkBehaviour
         TotalCoins.Value += coinValue;
     }
 
-        private void HandleDie(Health health)
+    private void HandleDie(Health health)
     {
         int bountyValue = (int)(TotalCoins.Value * (bountyPercentage / 100f));
         int bountyCoinValue = bountyValue / bountyCoinCount;

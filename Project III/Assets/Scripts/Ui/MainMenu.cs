@@ -62,7 +62,7 @@ public class MainMenu : MonoBehaviour
         if (isBusy) { return; }
 
         // Start queue
-        ClientSingleton.Instance.GameManager.MatchmakeAsync(teamToggle.isOn, onMatchMade);
+        ClientSingleton.Instance.GameManager.MatchmakeAsync(teamToggle.isOn, OnMatchMade);
         findMatchButtonText.text = "Cancel";
         queueStatusText.text = "Searching...";
         timeInQueue = 0f;
@@ -71,7 +71,7 @@ public class MainMenu : MonoBehaviour
 
     }
 
-    private void onMatchMade(MatchmakerPollingResult result)
+    private void OnMatchMade(MatchmakerPollingResult result)
     {
         switch (result)
         {
@@ -90,7 +90,6 @@ public class MainMenu : MonoBehaviour
             case MatchmakerPollingResult.MatchAssignmentError:
                 queueStatusText.text = "MatchAssignmentError";
                 break;
-            
         }
     }
 
