@@ -54,7 +54,7 @@ public class TankPlayer : NetworkBehaviour
             Debug.Log(currenttime);
         }
 
-        if(currenttime > 10)
+        if(currenttime > 180)
         {
             connections = 0;
 
