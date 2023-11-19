@@ -60,6 +60,7 @@ public class HealingZone : NetworkBehaviour
         if (!col.attachedRigidbody.TryGetComponent<TankPlayer>(out TankPlayer player)) { return; }
 
         playersInZone.Remove(player);
+        //AudioManager.instance.gameObject.transform.GetChild(2).gameObject.SetActive(false);
     }
 
     private void Update()
@@ -91,7 +92,7 @@ public class HealingZone : NetworkBehaviour
 
                 if (player.Wallet.TotalCoins.Value < coinsPerTick) { continue; }
 
-        Debug.Log($"Left: {player.PlayerName.Value}");
+                Debug.Log($"Left: {player.PlayerName.Value}");
                 player.Wallet.SpendCoins(coinsPerTick);
                 player.Health.RestoreHealth(healthPerTick);
 
@@ -101,6 +102,7 @@ public class HealingZone : NetworkBehaviour
                 {
                     remainingCooldown = healCooldown;
                 }
+                //AudioManager.instance.PlaySFX(2);
             }
 
             tickTimer = tickTimer % (1 / healTickRate);

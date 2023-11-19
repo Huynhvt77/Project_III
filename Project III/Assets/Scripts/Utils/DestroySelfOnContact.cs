@@ -22,6 +22,7 @@ public class DestroySelfOnContact : MonoBehaviour
             }
         }
 
+        AudioManager.instance.PlaySFX(9);
         Destroy(gameObject);
     }
 }

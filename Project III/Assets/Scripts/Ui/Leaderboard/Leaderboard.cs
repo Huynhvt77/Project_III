@@ -30,6 +30,8 @@ public class Leaderboard : NetworkBehaviour
     {
         leaderboardEntities = new NetworkList<LeaderboardEntityState>();
         leaderboard = leaderboardEntityHolder.parent.GetComponent<RectTransform>();
+        AudioManager.instance.gameObject.transform.GetChild(4).gameObject.SetActive(false);
+        AudioManager.instance.PlaySFX(16);
     }
 
     public override void OnNetworkSpawn()

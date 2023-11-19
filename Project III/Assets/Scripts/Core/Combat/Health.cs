@@ -28,6 +28,7 @@ public class Health : NetworkBehaviour
 
     public void RestoreHealth(int healValue)
     {
+        AudioManager.instance.PlaySFX(2);
         ModifyHealth(healValue);
     }
 

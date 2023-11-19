@@ -47,6 +47,8 @@ public class PlayerMovement : NetworkBehaviour
 
         float zRotation = previousMovementInput.x * -turningRate * Time.deltaTime;
         bodyTransform.Rotate(0f, 0f, zRotation);
+
+        OnPressButton();
     }
 
     private void FixedUpdate()
@@ -70,5 +72,13 @@ public class PlayerMovement : NetworkBehaviour
     private void HandleMove(Vector2 movementInput)
     {
         previousMovementInput = movementInput;
+    }
+
+    public void OnPressButton()
+    {
+        if (Input.GetKey(KeyCode.A) ||Input.GetKey(KeyCode.W) ||Input.GetKey(KeyCode.S) ||Input.GetKey(KeyCode.D))
+        {
+            AudioManager.instance.PlaySFX(8);
+        } 
     }
 }

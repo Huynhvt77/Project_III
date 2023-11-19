@@ -41,6 +41,7 @@ public class CoinSpawner : NetworkBehaviour
 
     private void HandleCoinCollected(RespawningCoin coin)
     {
+        AudioManager.instance.PlaySFX(7);
         coin.transform.position = GetSpawnPoint();
         coin.Reset();
     }

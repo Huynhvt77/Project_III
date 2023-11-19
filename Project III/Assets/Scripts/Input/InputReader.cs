@@ -29,6 +29,7 @@ public class InputReader : ScriptableObject, IPlayerActions
     public void OnMove(InputAction.CallbackContext context)
     {
         MoveEvent?.Invoke(context.ReadValue<Vector2>());
+        AudioManager.instance.PlaySFX(8);
     }
 
     public void OnPrimaryFire(InputAction.CallbackContext context)

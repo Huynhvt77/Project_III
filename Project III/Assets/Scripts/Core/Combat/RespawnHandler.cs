@@ -45,15 +45,19 @@ public class RespawnHandler : NetworkBehaviour
 
     private void HandlePlayerDie(TankPlayer player)
     {
+        AudioManager.instance.PlaySFX(10);
+
         int keptCoins = (int)(player.Wallet.TotalCoins.Value * (keptCoinPercentage / 100));
         
         Destroy(player.gameObject);
         
         StartCoroutine(RespawnPlayer(player.OwnerClientId, keptCoins));
+
     }
 
     private IEnumerator RespawnPlayer(ulong ownerClientId, int keptCoins)
     {
+        AudioManager.instance.PlaySFX(15);
         yield return null;
 
         TankPlayer playerInstance = Instantiate(
@@ -61,7 +65,6 @@ public class RespawnHandler : NetworkBehaviour
             SpawnPoint.GetRandomSpawnPos(), 
             Quaternion.identity
         );
-        
         playerInstance.NetworkObject.SpawnAsPlayerObject(ownerClientId);
 
         playerInstance.Wallet.TotalCoins.Value += keptCoins;
