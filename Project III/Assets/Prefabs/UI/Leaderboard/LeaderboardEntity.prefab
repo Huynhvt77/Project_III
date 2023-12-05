@@ -68,8 +68,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1. uiyfd (20)
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c46fac563cbc1254ab144788eebd6564, type: 2}
+  m_sharedMaterial: {fileID: 8466917100335079712, guid: c46fac563cbc1254ab144788eebd6564, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -148,4 +148,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayText: {fileID: 8587696979391802292}
-  myColour: {r: 1, g: 0.2509804, b: 0.2509804, a: 1}
