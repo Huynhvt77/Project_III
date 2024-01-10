@@ -7,6 +7,8 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance;
     public AudioSource[] soundEffects;
 
+    public bool isOn = true;
+
     private void Awake() 
     {
         if (instance == null){

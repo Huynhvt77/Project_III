@@ -38,9 +38,13 @@ public class GameHUD : NetworkBehaviour
         if (NetworkManager.Singleton.IsHost)
         {
             HostSingleton.Instance.GameManager.Shutdown();
+
+            AudioManager.instance.gameObject.transform.GetChild(16).gameObject.SetActive(false);
         }
 
         ClientSingleton.Instance.GameManager.Disconnect();
+
+        AudioManager.instance.gameObject.transform.GetChild(16).gameObject.SetActive(false);
     }
 
     private void HandleLobbyCodeChanged(FixedString32Bytes oldCode, FixedString32Bytes newCode)

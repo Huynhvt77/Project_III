@@ -15,6 +15,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private TMP_InputField joinCodeField; 
     [SerializeField] private Toggle teamToggle;
     [SerializeField] private Toggle privateToggle;
+    [SerializeField] private Toggle musicToggle;
 
     private bool isMatchmaking;
     private bool isCancelling;
